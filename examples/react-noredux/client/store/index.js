@@ -1,19 +1,22 @@
-
-import { createStore, applyMiddleware } from 'noredux'
+import { createStore, applyMiddleware } from 'redux'
 import { logger } from '../middleware'
-import initialState from '../reducers'
+import rootReducer from '../reducers'
+import {enableNoredux} from 'redux-noredux'
 
-export default function configure() {
+export default function configure(initialState) {
+  const create = window.devToolsExtension
+    ? window.devToolsExtension()(createStore)
+    : createStore
+
   const createStoreWithMiddleware = applyMiddleware(
     logger
-  )(createStore)
-
-  const store = createStoreWithMiddleware(initialState)
+  )(create)
+  const store = createStoreWithMiddleware(enableNoredux(rootReducer), initialState)
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
       const nextReducer = require('../reducers')
-      store.replaceReducer(nextReducer)
+      store.replaceReducer(enableNoredux(nextReducer))
     })
   }
 

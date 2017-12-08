@@ -1,7 +1,7 @@
 {
-  "name": "noredux",
+  "name": "redux-noredux",
   "version": "1.0.1",
-  "description": "A non-event-driven version of redux",
+  "description": "noredux actions and higher order reducer for redux",
   "scripts": {
     "prepublish": "npm run lint && npm run test && rm -rf lib && npm run build",
     "build": "babel src --out-dir lib",
@@ -10,7 +10,7 @@
     "prettier": "prettier --write \"src/**/*.js\""
   },
   "main": "lib/index.js",
-  "repository": "https://github.com/l2silver/noredux",
+  "repository": "https://github.com/l2silver/redux-noredux",
   "author": "<lsilversteinto@gmail.com>",
   "license": "MIT",
   "dependencies": {},
