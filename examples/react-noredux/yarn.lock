@@ -3089,9 +3089,9 @@ redux-actions@^0.9.1:
     flux-standard-action "^0.6.0"
     reduce-reducers "^0.1.0"
 
-redux-noredux@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/redux-noredux/-/redux-noredux-1.0.1.tgz#239400be669d930f2f321614fb9570a13e62d39d"
+redux-noredux@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/redux-noredux/-/redux-noredux-1.0.2.tgz#e59b15dd0addb7b0e7e9aa3200961d5603f82d3e"
 
 redux@^3.3.1:
   version "3.7.2"
