@@ -5,46 +5,89 @@ noredux is a non-event-driven version of redux.
 # Install
 
 ```
-yarn add noredux
+yarn add redux redux-noredux noredux
 ```
 
 # Usage
 
 ```
-import {createStore} from 'noredux'
+import {createStore} from 'redux'
+import {enableNoredux, noreduxAction} from 'redux-noredux'
 
-const initialState = 1
+const reducer2InitialState = 1
 
-const store = createStore(initialState)
+const reducer = (state, action)=>state
 
-const reducer = (state)=>state + 1
+const store = createStore(enableNoredux(reducers), {reducer2: reducer2InitialState})
 
-store.dispatch(reducer)
+const reducer2 = (state)=>({...state, reducer2: state.reducer2 + 1})
+
+store.dispatch(noreduxAction(reducer))
 
 console.log(store.getState())
-// 2
+
+/*
+  {
+    reducer2: 2
+  }
+*/
 ```
 
-# noredux vs traditional redux
+# Usage with combineReducers
 
-It shares the same idea of one state shared across the entire application, but it differs in how changes in the state are affected. In traditional redux, changes are dispatched as actions that go through a reducer function, match the action type to action, and then modify the state with the option of using additional information in the action. noredux dispatches functions that have one argument, the previous state, and return the next state.
+```
+import {createStore, combineReducers} from 'redux'
+import {fakeReducer, enableNoredux, noreduxAction} from 'redux-noredux'
 
-# Why another state management library
+const reducer2InitialState = 1
 
-I don't think most front-end applications are complicated enough to warrant event driven architecture. I've worked on a lot of projects varying in complexity, and I've yet to see a truly valid use case for having multiple reducers act on the same action, which is part of the advantage of event-driven architecture. I understand the rational for why someone might want to do this, and how it can appear to be a clean solution to a complicated issue, but the implicit nature of this design pattern makes debugging more difficult and increases onboarding time for new team members. To be sure, it's a design paradigm that makes sense in certain situations, but it seems like for the majority of front-end applications this approach is problematic.
+const reducers = combineReducers({
+  reducer1: (state=null, action)=>state
+  reducer2: fakeReducer(reducer2InitialState)
+})
 
-# Problems with noredux
+const store = createStore(enableNoredux(reducers))
 
-The basic problem with noredux is that setting up the reducers and initial state is more complicated than traditional redux. To achieve the scoping pattern that traditional redux combineReducers provides(or packages with similar functionality), every reducer essentially needs a selector function and a setter function. The selector function ensures that the reducer receives only the part of the store's state that it's entitled to work on, and the setter is the function that merges the results from the reducer back into the store.
+const reducer2 = (state)=>({...state, reducer2: state.reducer2 + 1})
 
-# Experimental
+store.dispatch(noreduxAction(reducer))
 
-I don't use noredux in production, and unless it miraculously gains the attention of a major tech corporation, I problably won't be using it in the future. I think it's an interesting technology though, and I thought I would open up the idea for anyone else looking to experiment with different ways of designing front-end applications. Technically speaking, this isn't event considered flux.
+console.log(store.getState())
+/*
+  {
+    reducer1: null,
+    reducer2: 2
+  }
+*/
+```
+
+# defining action type, and args
+
+The noreduxAction function takes the reducer function as it's only argument. It looks to the reducer function for the properties type and args.
+
+```
+import {noreduxAction} from 'redux-noredux'
+
+const reducerCreator = (...args)=>{
+  const reducer = (state)=>nextState
+  reducer.type = 'example type'
+  reducer.args = args
+  return reducer
+}
+
+const reducer = reducerCreator(1, 2)
+console.log(noreduxAction(reducer))
+
+/*
+  {
+    type: '@@redux-noredux/example type',
+    args: [1, 2],
+    reducer,
+    noredux: true
+  }
+*/
+```
 
 # Example App
 
 Checkout the examples section for a working example of a react-noredux app
-
-# Advanced Usage
-
-Please refer to the tests in src/scopeReducers for example usage of scoping reducers
