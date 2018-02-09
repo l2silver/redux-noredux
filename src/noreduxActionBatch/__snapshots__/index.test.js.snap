@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`noreduxActionBatch returns actions 1`] = `
+Object {
+  "args": undefined,
+  "noredux": true,
+  "reducer": [Function],
+  "type": "@@redux-noredux/",
+}
+`;
+
+exports[`noreduxActionBatch returns actions with noredux wrappings 1`] = `
+Object {
+  "args": Array [
+    1,
+  ],
+  "noredux": true,
+  "reducer": [Function],
+  "type": "@@redux-noredux/users:create",
+}
+`;
