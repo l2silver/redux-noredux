@@ -1,6 +1,6 @@
 {
   "name": "redux-noredux",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "noredux actions and higher order reducer for redux",
   "scripts": {
     "prepublish": "npm run lint && npm run test && rm -rf lib && npm run build",
