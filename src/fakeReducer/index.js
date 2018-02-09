@@ -1,3 +1,3 @@
 // @flow
 
-export default (initialState: any)=>(state: any = initialState)=>state
+export default (initialState: any) => (state: any = initialState) => state

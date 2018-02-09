@@ -5,9 +5,4 @@ import noreduxAction from './noreduxAction'
 import noreduxActionBatch from './noreduxActionBatch'
 import fakeReducer from './fakeReducer'
 
-export {
-  enableNoredux,
-  noreduxAction,
-  fakeReducer,
-  noreduxActionBatch,
-}
+export { enableNoredux, noreduxAction, fakeReducer, noreduxActionBatch }
